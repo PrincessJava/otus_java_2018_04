@@ -2,9 +2,9 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.otus.t1.MyArrayList;
 
-import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.*;
 import static org.junit.Assert.assertEquals;
 
@@ -16,7 +16,7 @@ public class MyArrayListTest {
     @Before
     public void init() {
         myList = new MyArrayList<>();
-        etalonList = Arrays.asList(0, 4, 2);
+        etalonList = asList(0, 4, 2);
     }
 
     @Test

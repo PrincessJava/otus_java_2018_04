@@ -76,7 +76,14 @@ public class MyArrayList<T> implements List<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        return false;
+        Object[] a = c.toArray();
+        int numNew = a.length;
+        if (c.size() > size) {
+            increaseCapacity();
+        }
+        System.arraycopy(a, 0, data, size, numNew);
+        size += numNew;
+        return numNew != 0;
     }
 
     @Override
