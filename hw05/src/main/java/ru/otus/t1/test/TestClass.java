@@ -1,4 +1,4 @@
-package ru.otus.t1;
+package ru.otus.t1.test;
 
 import ru.otus.t1.annotation.After;
 import ru.otus.t1.annotation.Before;
@@ -10,11 +10,6 @@ public class TestClass {
     public void beforeMethod() {
         System.out.println("@Before");
     }
-
-//    @Before
-//    public void beforeMethod1() {
-//        System.out.println("Yeah @Before");
-//    }
 
     @Test
     public void testMethod1() {
@@ -30,10 +25,5 @@ public class TestClass {
     public void afterMethod() {
         System.out.println("@After");
     }
-
-//    @After
-//    public void afterMethod1() {
-//
-//    }
 
 }

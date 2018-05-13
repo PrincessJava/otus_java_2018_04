@@ -9,7 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hw05</artifactId>
+    <properties>
+        <reflections.version>0.9.11</reflections.version>
+    </properties>
 
+    <artifactId>hw05</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

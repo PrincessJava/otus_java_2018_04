@@ -1,38 +1,58 @@
 package ru.otus.t1;
 
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import ru.otus.t1.annotation.After;
 import ru.otus.t1.annotation.Before;
 import ru.otus.t1.annotation.Test;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class TestFramework {
-    private List<Method> testMethods = new LinkedList<>();
+    private static final String packageName = "ru.otus.t1.test";
     private Method beforeMethod;
     private Method afterMethod;
     private Class<?> clazz;
+    private List<Method> testMethods;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         TestFramework testFramework = new TestFramework();
-        testFramework.prepare("ru.otus.t1", "TestClass");
-        testFramework.run();
-    }
 
-    private void run() throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        for (Method m : testMethods) {
-            beforeMethod.invoke(clazz.newInstance());
-            m.invoke(clazz.newInstance());
-            afterMethod.invoke(clazz.newInstance());
+        for (String className : testFramework.getAllTestClasses(packageName)) {
+            try {
+                testFramework.prepare(className);
+                testFramework.run();
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
-    private void prepare(String packageName, String className) {
-        try {
-            clazz = Class.forName(packageName + "." + className);
+    private Set<String> getAllTestClasses(String packageName) {
+        Reflections reflections = new Reflections(
+                new ConfigurationBuilder()
+                        .setScanners(new SubTypesScanner(false), new ResourcesScanner())
+                        .setUrls(ClasspathHelper.forJavaClassPath())
+                        .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(packageName))));
+        return reflections.getAllTypes();
+    }
+
+    private void prepare(String className) throws ClassNotFoundException {
+        beforeMethod = null;
+        afterMethod = null;
+        clazz = null;
+        testMethods = new LinkedList<>();
+
+        clazz = Class.forName(className);
             Method[] methods = clazz.getDeclaredMethods();
 
             for (Method m : methods) {
@@ -44,8 +64,18 @@ public class TestFramework {
                     afterMethod = m;
                 }
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+    }
+
+    private void run() throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        for (@Nonnull Method m : testMethods) {
+            if (beforeMethod != null) {
+                beforeMethod.invoke(clazz.newInstance());
+            }
+            m.invoke(clazz.newInstance());
+            if (afterMethod != null) {
+                afterMethod.invoke(clazz.newInstance());
+            }
         }
     }
+
 }
