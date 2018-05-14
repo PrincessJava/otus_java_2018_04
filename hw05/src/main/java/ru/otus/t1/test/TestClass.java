@@ -3,6 +3,7 @@ package ru.otus.t1.test;
 import ru.otus.t1.annotation.After;
 import ru.otus.t1.annotation.Before;
 import ru.otus.t1.annotation.Test;
+import ru.otus.t1.assertion.MyAssert;
 
 public class TestClass {
 
@@ -14,6 +15,7 @@ public class TestClass {
     @Test
     public void testMethod1() {
         System.out.println("@Test 1");
+        MyAssert.MyAssertFalse(true);
     }
 
     @Test
