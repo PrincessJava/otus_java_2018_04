@@ -52,6 +52,7 @@ public class MyAssert {
         throw new MyAssertionException(format(message, expected, actual));
     }
 
+    //todo сделать покрасивше и в одном стиле вывод ошибок
     private static String format(String message, Object expected, Object actual) {
         String formatted = "";
         if (message != null && !message.equals("")) {
