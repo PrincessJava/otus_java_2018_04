@@ -24,6 +24,12 @@ public class TestClass {
         System.out.println("@Test 2");
     }
 
+    @Test
+    public void testMethod3() throws MyAssertionException {
+        System.out.println("@Test 3");
+        MyAssert.MyAssertEquals(2, 3);
+    }
+
     @After
     public void afterMethod() {
         System.out.println("@After");

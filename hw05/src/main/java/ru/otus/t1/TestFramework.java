@@ -1,81 +1,49 @@
 package ru.otus.t1;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
 import ru.otus.t1.annotation.After;
 import ru.otus.t1.annotation.Before;
 import ru.otus.t1.annotation.Test;
+import ru.otus.t1.proxy.FrameworkExecutor;
+import ru.otus.t1.proxy.TestMethodsCallHandler;
 
-import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-public class TestFramework {
-    private static final String packageName = "ru.otus.t1.test";
-    private Method beforeMethod;
-    private Method afterMethod;
-    private Class<?> clazz;
-    private List<Method> testMethods;
+public class TestFramework implements FrameworkExecutor {
+    private String packageName;
+    private String className;
+    private TestMethodsCallHandler methodsCallHandler;
 
-    public static void main(String[] args) {
-        TestFramework testFramework = new TestFramework();
-
-        for (String className : testFramework.getAllTestClasses(packageName)) {
-            try {
-                testFramework.prepare(className);
-                testFramework.run();
-            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
+    public TestFramework(String packageName, String className) {
+        this.packageName = packageName;
+        this.className = className;
     }
 
-    private Set<String> getAllTestClasses(String packageName) {
-        Reflections reflections = new Reflections(
-                new ConfigurationBuilder()
-                        .setScanners(new SubTypesScanner(false), new ResourcesScanner())
-                        .setUrls(ClasspathHelper.forJavaClassPath())
-                        .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(packageName))));
-        return reflections.getAllTypes();
+    @Override
+    public void run() throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        methodsCallHandler = new TestMethodsCallHandler();
+        prepare(className);
+        methodsCallHandler.runTests();
     }
 
     private void prepare(String className) throws ClassNotFoundException {
-        beforeMethod = null;
-        afterMethod = null;
-        clazz = null;
-        testMethods = new LinkedList<>();
+        List<Method> testMethods = new LinkedList<>();
+        Class<?> clazz = Class.forName(packageName.concat(className));
+        methodsCallHandler.setClazz(clazz);
 
-        clazz = Class.forName(className);
-            Method[] methods = clazz.getDeclaredMethods();
+        Method[] methods = clazz.getDeclaredMethods();
 
-            for (Method m : methods) {
-                if (m.isAnnotationPresent(Test.class)) {
-                    testMethods.add(m);
-                } else if (m.isAnnotationPresent(Before.class)) {
-                    beforeMethod = m;
-                } else if (m.isAnnotationPresent(After.class)) {
-                    afterMethod = m;
-                }
-            }
-    }
-
-    private void run() throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        for (@Nonnull Method m : testMethods) {
-            if (beforeMethod != null) {
-                beforeMethod.invoke(clazz.newInstance());
-            }
-            m.invoke(clazz.newInstance());
-            if (afterMethod != null) {
-                afterMethod.invoke(clazz.newInstance());
+        for (Method m : methods) {
+            if (m.isAnnotationPresent(Test.class)) {
+                testMethods.add(m);
+            } else if (m.isAnnotationPresent(Before.class)) {
+                methodsCallHandler.setBeforeMethod(m);
+            } else if (m.isAnnotationPresent(After.class)) {
+                methodsCallHandler.setAfterMethod(m);
             }
         }
+        methodsCallHandler.setTestMethods(testMethods);
     }
-
 }
