@@ -2,8 +2,6 @@ package ru.otus.t1.proxy;
 
 import ru.otus.t1.TestFramework;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class FrameworkExecutorImpl implements FrameworkExecutor {
     private TestFramework testFramework;
 
@@ -16,13 +14,13 @@ public class FrameworkExecutorImpl implements FrameworkExecutor {
 
         try {
             executor.run();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void run() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public void run() throws Exception {
         testFramework.run();
 
     }

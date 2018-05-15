@@ -37,12 +37,7 @@ public class TestMethodsCallHandler {
                 if (beforeMethod != null) {
                     beforeMethod.invoke(clazz.newInstance());
                 }
-                //try {
                 m.invoke(clazz.newInstance());
-                // }
-                //catch (MyAssertionException e) {
-                // System.out.println(e.getMessage());
-                //}
                 if (afterMethod != null) {
                     afterMethod.invoke(clazz.newInstance());
                 }
