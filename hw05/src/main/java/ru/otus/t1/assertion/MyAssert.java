@@ -52,7 +52,6 @@ public class MyAssert {
         throw new MyAssertionException(format(message, expected, actual));
     }
 
-    //todo сделать покрасивше и в одном стиле вывод ошибок
     private static String format(String message, Object expected, Object actual) {
         String formatted = "";
         if (message != null && !message.equals("")) {
@@ -62,14 +61,9 @@ public class MyAssert {
         String expectedString = expected.toString();
         String actualString = actual.toString();
 
-        if (expected.equals(actual)) {
-            return formatted + "expected: "
-                    + expectedString
-                    + " but was: " + actualString;
-        } else {
-            return formatted + "expected:<" + expectedString + "> but was:<"
-                    + actualString + ">";
-        }
-    }
+        return formatted + "expected: "
+                + expectedString
+                + " but was: " + actualString;
 
+    }
 }

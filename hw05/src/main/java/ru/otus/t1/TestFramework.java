@@ -6,8 +6,9 @@ import ru.otus.t1.annotation.Test;
 import ru.otus.t1.proxy.FrameworkExecutor;
 import ru.otus.t1.proxy.TestMethodsCallHandler;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestFramework implements FrameworkExecutor {
@@ -22,37 +23,34 @@ public class TestFramework implements FrameworkExecutor {
 
     @Override
     public void run() throws Exception {
-        methodsCallHandler = new TestMethodsCallHandler();
         prepare(className);
         methodsCallHandler.runTests();
     }
 
     private void prepare(String className) throws Exception {
-        List<Method> testMethods = new LinkedList<>();
+        List<Method> afterMethods = new ArrayList<>();
+        List<Method> testMethods = new ArrayList<>();
+        List<Method> beforeMethods = new ArrayList<>();
+
         Class<?> clazz = Class.forName(packageName.concat(className));
-        methodsCallHandler.setClazz(clazz);
 
         Method[] methods = clazz.getDeclaredMethods();
-
-        //todo сделать красивше
         for (Method m : methods) {
             if (m.isAnnotationPresent(Test.class)) {
-                if (m.getParameters() == null) {
-                    throw new Exception("Method annotated with @" + Test.class.getSimpleName() + " should not have parameters");
-                }
-                testMethods.add(m);
+                processAnnotation(m, Test.class, testMethods);
             } else if (m.isAnnotationPresent(Before.class)) {
-                if (m.getParameters() == null) {
-                    throw new Exception("Method annotated with @" + Before.class.getSimpleName() + " should not have parameters");
-                }
-                methodsCallHandler.setBeforeMethod(m);
+                processAnnotation(m, Before.class, beforeMethods);
             } else if (m.isAnnotationPresent(After.class)) {
-                if (m.getParameters() == null) {
-                    throw new Exception("Method annotated with @" + After.class.getSimpleName() + " should not have parameters");
-                }
-                methodsCallHandler.setAfterMethod(m);
+                processAnnotation(m, After.class, afterMethods);
             }
         }
-        methodsCallHandler.setTestMethods(testMethods);
+        methodsCallHandler = new TestMethodsCallHandler(beforeMethods, testMethods, afterMethods, clazz);
+    }
+
+    private void processAnnotation(Method method, Class<? extends Annotation> annotation, List<Method> list) throws Exception {
+        if (method.getParameters() == null) {
+            throw new Exception("Method annotated with @" + annotation.getSimpleName() + " should not have parameters");
+        }
+        list.add(method);
     }
 }
