@@ -1,4 +1,4 @@
-package ru.otus.t1;
+package ru.otus.t3;
 
 public class StringTutor {
     public static void log(String s) {
