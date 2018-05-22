@@ -49,6 +49,9 @@ public class ArrayCopyTutor {
     }
 
     public void deleteAnimal(int position) {
+        if (position < 0 || position > animals_size - 1) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
         for (int i = position; i < animals_size - 1; i++) {
             animals[i] = animals[i + 1];
         }
