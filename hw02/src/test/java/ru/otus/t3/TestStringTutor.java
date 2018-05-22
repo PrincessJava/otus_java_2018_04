@@ -1,10 +1,9 @@
 package ru.otus.t3;
 
 import org.junit.Test;
-import ru.otus.t1.StringTutor;
 
 import static org.junit.Assert.*;
-import static ru.otus.t1.StringTutor.log;
+import static ru.otus.t3.StringTutor.log;
 
 public class TestStringTutor {
 
