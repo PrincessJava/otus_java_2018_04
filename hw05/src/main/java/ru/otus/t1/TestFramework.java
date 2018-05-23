@@ -51,6 +51,8 @@ public class TestFramework implements FrameworkExecutor {
         if (method.getParameters() == null) {
             throw new Exception("Method annotated with @" + annotation.getSimpleName() + " should not have parameters");
         }
-        list.add(method);
+        if (list != null) {
+            list.add(method);
+        }
     }
 }

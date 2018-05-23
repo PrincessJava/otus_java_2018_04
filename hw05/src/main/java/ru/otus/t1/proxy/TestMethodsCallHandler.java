@@ -22,21 +22,22 @@ public class TestMethodsCallHandler {
     public void runTests() throws InstantiationException, IllegalAccessException {
 
         for (@Nonnull Method m : testMethods) {
+            Object c = clazz.newInstance();
             if (!beforeMethods.isEmpty()) {
-                invokeTestMethod(beforeMethods.get(0));
+                invokeTestMethod(beforeMethods.get(0), c);
             }
 
-            invokeTestMethod(m);
+            invokeTestMethod(m, c);
 
             if (!afterMethods.isEmpty()) {
-                invokeTestMethod(afterMethods.get(0));
+                invokeTestMethod(afterMethods.get(0), c);
             }
         }
     }
 
-    private void invokeTestMethod(Method method) throws IllegalAccessException, InstantiationException {
+    private void invokeTestMethod(Method method, Object c) throws IllegalAccessException {
         try {
-            method.invoke(clazz.newInstance());
+            method.invoke(c);
         } catch (InvocationTargetException e) {
             System.err.println(e.getTargetException().getMessage());
         }
