@@ -40,9 +40,9 @@ public class TestStringTutor {
     @Test
     public void testCheckGreeting() {
         assertTrue(stringTutor.checkGreeting("Привет, Иван Иванов!"));
-//        assertTrue(stringTutor.checkGreeting("Привет,Петр Первый!"));
-//        assertTrue(stringTutor.checkGreeting("Привет, Петр Первый!"));
-//        assertTrue(stringTutor.checkGreeting("Привет, Петр Первый !"));
+        assertTrue(stringTutor.checkGreeting("Привет,Петр Первый!"));
+        assertTrue(stringTutor.checkGreeting("Привет, Петр Первый!"));
+        assertTrue(stringTutor.checkGreeting("Привет, Петр Первый !"));
 
         assertFalse("В начале должно быть слово Привет и запятая",
                 stringTutor.checkGreeting("Здравствуйте, Петр Первый!"));
