@@ -49,10 +49,10 @@ public class ArrayCopyTutor {
     }
 
     public void deleteAnimal(int position) {
-        for (int i = position; i < animals_size - 1; i++) {
-            animals[i] = animals[i + 1];
+        if (position < 0 || position > animals_size - 1) {
+            throw new ArrayIndexOutOfBoundsException();
         }
-        animals_size--;
+        System.arraycopy(animals, position + 1, animals, position, animals_size--);
     }
 
     public void showAnimals() {

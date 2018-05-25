@@ -58,5 +58,6 @@ public class TestStringTutor {
                 stringTutor.checkGreeting("Привет, петр Первый!"));
         assertFalse("Первая буква фамилии должна быть заглавной",
                 stringTutor.checkGreeting("Привет, Петр первый!"));
+        assertFalse(stringTutor.checkGreeting("Привет-Привет, Петр первый!"));
     }
 }

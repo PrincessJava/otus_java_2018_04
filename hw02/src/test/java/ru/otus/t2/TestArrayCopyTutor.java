@@ -20,6 +20,7 @@ public class TestArrayCopyTutor {
         arrayCopyTutor.addAnimal("Кошка");
         arrayCopyTutor.addAnimal("Черепаха");
         arrayCopyTutor.insertAnimal(1, "Человек");
+//        arrayCopyTutor.showAnimals();
         arrayCopyTutor.deleteAnimal(2);
         arrayCopyTutor.showAnimals();
     }

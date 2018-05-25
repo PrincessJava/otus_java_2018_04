@@ -18,7 +18,7 @@ public class StringTutor {
      */
     public boolean checkGreeting(String greeting) {
 
-        return greeting.matches("Привет,\\s*[А-Я][а-я]{2,} [А-Я][а-я]{2,}\\s*!");
+        return greeting.matches("^(Привет,\\s*([А-ЯЁ][а-яё]{2,}\\s*){2}\\s*!)$");
     }
 
 }
