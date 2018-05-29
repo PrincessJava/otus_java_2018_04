@@ -1,6 +1,6 @@
 package ru.otus.t1.exception;
 
-public class MyAssertionException extends Exception {
+public class MyAssertionException extends RuntimeException {
     private String message = "Assertion Error";
 
     public MyAssertionException() {

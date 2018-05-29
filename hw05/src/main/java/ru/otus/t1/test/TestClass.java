@@ -4,7 +4,6 @@ import ru.otus.t1.annotation.After;
 import ru.otus.t1.annotation.Before;
 import ru.otus.t1.annotation.Test;
 import ru.otus.t1.assertion.MyAssert;
-import ru.otus.t1.exception.MyAssertionException;
 
 public class TestClass {
 
@@ -14,7 +13,7 @@ public class TestClass {
     }
 
     @Test
-    public void testMethod1() throws MyAssertionException {
+    public void testMethod1() {
         System.out.println("@Test 1");
         MyAssert.MyAssertFalse(true);
     }
@@ -25,7 +24,7 @@ public class TestClass {
     }
 
     @Test
-    public void testMethod3() throws MyAssertionException {
+    public void testMethod3() {
         System.out.println("@Test 3");
         MyAssert.MyAssertEquals(2, 3);
     }

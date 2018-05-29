@@ -8,6 +8,7 @@ import ru.otus.t1.proxy.TestMethodsCallHandler;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +49,11 @@ public class TestFramework implements FrameworkExecutor {
     }
 
     private void processAnnotation(Method method, Class<? extends Annotation> annotation, List<Method> list) throws Exception {
-        if (method.getParameters() == null) {
+        Parameter[] parameters = method.getParameters();
+        if (parameters != null && parameters.length != 0) {
             throw new Exception("Method annotated with @" + annotation.getSimpleName() + " should not have parameters");
         }
-        if (list != null) {
-            list.add(method);
-        }
+        list.add(method);
+
     }
 }
