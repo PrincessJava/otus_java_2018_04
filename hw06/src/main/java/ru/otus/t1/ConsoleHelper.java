@@ -23,32 +23,45 @@ public class ConsoleHelper {
         return line;
     }
 
-    public static String askCurrencyCode() throws InterruptOperationException {
-        System.out.println("Enter currency code, please");
-        String code = readString().trim();
-        if (code.length() == 3) {
-            code = code.toUpperCase();
-            return code;
-        }
-        System.out.println("Data are not valid.");
-        return askCurrencyCode();
-    }
+//    public static String askCurrencyCode() throws InterruptOperationException {
+//        System.out.println("Enter currency code, please");
+//        String code = readString().trim();
+//        if (code.length() == 3) {
+//            code = code.toUpperCase();
+//            return code;
+//        }
+//        System.out.println("Data are not valid.");
+//        return askCurrencyCode();
+//    }
 
-    public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
-        writeMessage("Enter nominal and value, please");
+//    public static String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
+//        writeMessage("Enter nominal and value, please");
+//        String[] nominalAndValue = readString().split("\\s+");
+//        return nominalAndValue;
+//    }
+
+    public static String[] getNominalAndAmount() throws InterruptOperationException {
+        writeMessage("Введите номинал и количество купюр");
+        writeMessage("Доступные номиналы:\n" +
+                "FIVETHOUSAND,\n" +
+                "ONETHOUSAND,\n" +
+                "FIVEHUNDRED,\n" +
+                "ONEHUNDRED,\n" +
+                "FIFTY,\n" +
+                "TEN");
         String[] nominalAndValue = readString().split("\\s+");
         return nominalAndValue;
     }
 
     public static Operation askOperation() throws InterruptOperationException {
-        writeMessage("Enter operation type, please: 1 - INFO, 2 - DEPOSIT, 3 - WITHDRAW, 4 - EXIT");
+        writeMessage("Выберите тип операции: 1 - INFO, 2 - DEPOSIT, 3 - WITHDRAW, 4 - EXIT");
         try {
             int operationType = Integer.parseInt(readString());
             return Operation.getAllowableOperationByOrdinal(operationType);
         } catch (IllegalArgumentException e) {
         } catch (Exception e1) {
         }
-        writeMessage("Data are not valid.");
+        writeMessage("Введите корректные данные");
         return askOperation();
     }
 }

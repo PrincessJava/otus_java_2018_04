@@ -4,16 +4,14 @@ import ru.otus.t1.ConsoleHelper;
 import ru.otus.t1.CurrencyManipulator;
 import ru.otus.t1.CurrencyManipulatorFactory;
 
-import java.util.ResourceBundle;
-
 public class InfoCommand implements Command {
-    private ResourceBundle res = ResourceBundle.getBundle("ru.otus.t1.info");
+    //private ResourceBundle res = ResourceBundle.getBundle("ru.otus.t1.info_en");
 
     @Override
     public void execute() {
-        ConsoleHelper.writeMessage(res.getString("before"));
+        //ConsoleHelper.writeMessage(res.getString("before"));
         if (CurrencyManipulatorFactory.getAllCurrencyManipulators().isEmpty()) {
-            ConsoleHelper.writeMessage(res.getString("no.money"));
+            ConsoleHelper.writeMessage("Нет доступных стредств");
         } else {
             int counter = 0;
             for (CurrencyManipulator item : CurrencyManipulatorFactory.getAllCurrencyManipulators()) {
@@ -23,7 +21,7 @@ public class InfoCommand implements Command {
             }
 
             if (counter == CurrencyManipulatorFactory.getAllCurrencyManipulators().size()) {
-                ConsoleHelper.writeMessage(res.getString("no.money"));
+                ConsoleHelper.writeMessage("Нет доступных стредств");
             }
         }
 

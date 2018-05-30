@@ -1,16 +1,18 @@
 package ru.otus.t1;
 
+import ru.otus.t1.myTry.Nominal;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class CurrencyManipulatorFactory {
-    private static Map<String, CurrencyManipulator> mapCurrencyManipulators = new HashMap<String, CurrencyManipulator>();
+    private static Map<Nominal, CurrencyManipulator> mapCurrencyManipulators = new HashMap<>();
 
     private CurrencyManipulatorFactory() {
     }
 
-    public static CurrencyManipulator getManipulatorByCurrencyCode(String currencyCode) {
+    public static CurrencyManipulator getManipulatorByCurrencyCode(Nominal currencyCode) {
         if (!mapCurrencyManipulators.containsKey(currencyCode))
             mapCurrencyManipulators.put(currencyCode, new CurrencyManipulator(currencyCode));
 

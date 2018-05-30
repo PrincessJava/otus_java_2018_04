@@ -5,14 +5,16 @@ import ru.otus.t1.CurrencyManipulator;
 import ru.otus.t1.CurrencyManipulatorFactory;
 import ru.otus.t1.exception.InterruptOperationException;
 import ru.otus.t1.exception.NotEnoughMoneyException;
+import ru.otus.t1.myTry.Nominal;
 
 import java.util.Map;
 
 public class WithdrawCommand implements Command {
     @Override
     public void execute() throws InterruptOperationException {
-        String code = ConsoleHelper.askCurrencyCode();
-        CurrencyManipulator cm = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(code);
+//        String code = ConsoleHelper.askCurrencyCode();
+        String[] values = ConsoleHelper.getNominalAndAmount();
+        CurrencyManipulator cm = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(Nominal.valueOf(values[0]));
         for (; ; ) {
             ConsoleHelper.writeMessage("Введите сумму: ");
             String in = ConsoleHelper.readString();
@@ -27,8 +29,8 @@ public class WithdrawCommand implements Command {
             }
             if (cm.isAmountAvailable(sum)) {
                 try {
-                    Map<Integer, Integer> answ = cm.withdrawAmount(sum);
-                    for (Map.Entry<Integer, Integer> e : answ.entrySet()) {
+                    Map<Nominal, Integer> answ = cm.withdrawAmount(sum);
+                    for (Map.Entry<Nominal, Integer> e : answ.entrySet()) {
                         ConsoleHelper.writeMessage("\t" + e.getKey() + " - " + e.getValue());
                     }
                     ConsoleHelper.writeMessage("Транзакция проведена успешно!");
