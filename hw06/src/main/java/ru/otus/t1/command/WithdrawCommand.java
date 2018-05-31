@@ -3,43 +3,44 @@ package ru.otus.t1.command;
 import ru.otus.t1.ConsoleHelper;
 import ru.otus.t1.CurrencyManipulator;
 import ru.otus.t1.CurrencyManipulatorFactory;
+import ru.otus.t1.Nominal;
 import ru.otus.t1.exception.InterruptOperationException;
 import ru.otus.t1.exception.NotEnoughMoneyException;
-import ru.otus.t1.myTry.Nominal;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class WithdrawCommand implements Command {
+    private ResourceBundle res = ResourceBundle.getBundle("withdraw");
+
     @Override
     public void execute() throws InterruptOperationException {
-//        String code = ConsoleHelper.askCurrencyCode();
-        String[] values = ConsoleHelper.getNominalAndAmount();
-        CurrencyManipulator cm = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(Nominal.valueOf(values[0]));
+        CurrencyManipulator currencyManipulator = CurrencyManipulatorFactory.getCurrencyManipulator();
         for (; ; ) {
-            ConsoleHelper.writeMessage("Введите сумму: ");
+            ConsoleHelper.writeMessage(res.getString("enter.sum"));
             String in = ConsoleHelper.readString();
-            if (!in.matches("\\d+")) {
-                ConsoleHelper.writeMessage("Некоректные данные");
+            if (!in.matches("\\d+") && Integer.parseInt(in) <= 0) {
+                ConsoleHelper.writeMessage(res.getString("invalid.data"));
                 continue;
             }
             int sum = Integer.parseInt(in);
             if (sum <= 0) {
-                ConsoleHelper.writeMessage("Некоректные данные");
+                ConsoleHelper.writeMessage(res.getString("invalid.data"));
                 continue;
             }
-            if (cm.isAmountAvailable(sum)) {
+            if (currencyManipulator.isAmountAvailable(sum)) {
                 try {
-                    Map<Nominal, Integer> answ = cm.withdrawAmount(sum);
+                    Map<Nominal, Integer> answ = currencyManipulator.withdrawAmount(sum);
                     for (Map.Entry<Nominal, Integer> e : answ.entrySet()) {
                         ConsoleHelper.writeMessage("\t" + e.getKey() + " - " + e.getValue());
                     }
-                    ConsoleHelper.writeMessage("Транзакция проведена успешно!");
+                    ConsoleHelper.writeMessage(res.getString("success.transaction"));
                     return;
                 } catch (NotEnoughMoneyException e) {
-                    ConsoleHelper.writeMessage("Указанную сумму выдать нельзя!");
+                    ConsoleHelper.writeMessage(res.getString("not.enough.nom.error"));
                 }
             } else {
-                ConsoleHelper.writeMessage("Недостаточно денег на счету");
+                ConsoleHelper.writeMessage(res.getString("not.enough.money.error"));
             }
         }
     }

@@ -5,9 +5,9 @@ import ru.otus.t1.exception.InterruptOperationException;
 
 import java.util.Locale;
 
-public class CashMachine {
+public class ATM {
     public static void main(String[] args) {
-        Locale.setDefault(Locale.ENGLISH);
+        Locale.setDefault(new Locale("ru"));
         Operation op;
         try {
             do {
@@ -16,7 +16,7 @@ public class CashMachine {
             }
             while (op != Operation.EXIT);
         } catch (InterruptOperationException e) {
-
+            ConsoleHelper.writeMessage(e.getMessage());
         }
 
     }
