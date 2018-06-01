@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class ConsoleHelper {
-    private ConsoleHelper() {
+    protected ConsoleHelper() {
     }
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -45,8 +45,6 @@ public class ConsoleHelper {
         try {
             int operationType = Integer.parseInt(readString());
             return Operation.getAllowableOperationByOrdinal(operationType);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
         } catch (Exception e1) {
             e1.printStackTrace();
         }

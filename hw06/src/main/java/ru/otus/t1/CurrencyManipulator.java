@@ -34,6 +34,7 @@ public class CurrencyManipulator {
         return (expectedAmount <= getTotalAmount());
     }
 
+    //Снимает sum максимально крупными купюрами, результат помещается в result
     public Map<Nominal, Integer> withdrawAmount(int expectedAmount) throws NotEnoughMoneyException {
         TreeMap<Nominal, Integer> answ = new TreeMap<>(Collections.reverseOrder());
         try {
@@ -55,11 +56,9 @@ public class CurrencyManipulator {
         return answ;
     }
 
-    //Снимает sum максимально крупными купюрами, результат помещается в result
     //Если сумму удалось снять - возвращает ноль
     private int withdraw(Map<Nominal, Integer> map, Map<Nominal, Integer> result, int sum) {
-        Map<Nominal, Integer> copyMap = new TreeMap<>(Collections.reverseOrder());
-        copyMap.putAll(map);
+        Map<Nominal, Integer> copyMap = new TreeMap<>(map);
         for (Map.Entry<Nominal, Integer> e : copyMap.entrySet()) {
             if (e.getKey().nominalValue() <= sum && e.getValue() > 0) {
                 sum -= e.getKey().nominalValue();

@@ -1,6 +1,6 @@
 package ru.otus.t1;
 
-public final class CurrencyManipulatorFactory {
+public class CurrencyManipulatorFactory {
 
     private CurrencyManipulatorFactory() {
     }
