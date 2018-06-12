@@ -6,12 +6,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 public class ConsoleHelper {
     protected ConsoleHelper() {
     }
 
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static ResourceBundle res = ResourceBundle.getBundle("console");
 
     public static void writeMessage(String message) {
         System.out.println(message);
@@ -33,7 +35,7 @@ public class ConsoleHelper {
     }
 
     public static String[] getNominalAndAmount() throws InterruptOperationException {
-        writeMessage("Введите код номинала и количество купюр\nДоступные номиналы:");
+        writeMessage(res.getString("console.ask.nominal"));
 
         Arrays.stream(Nominal.values()).forEach(x -> writeMessage(x.toString()));
 
@@ -41,14 +43,14 @@ public class ConsoleHelper {
     }
 
     public static Operation askOperation() {
-        writeMessage("Выберите тип операции: 1 - INFO, 2 - DEPOSIT, 3 - WITHDRAW, 4 - EXIT");
+        writeMessage(res.getString("console.choose.operation.type"));
         try {
             int operationType = Integer.parseInt(readString());
             return Operation.getAllowableOperationByOrdinal(operationType);
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        writeMessage("Введите корректные данные");
+        writeMessage(res.getString("console.incorrect.data"));
         return askOperation();
     }
 }
