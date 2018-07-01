@@ -1,6 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
-import ru.otus.t1.MyArrayList;
+import t1.MyArrayList;
 
 import java.util.List;
 

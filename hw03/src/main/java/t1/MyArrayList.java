@@ -1,4 +1,4 @@
-package ru.otus.t1;
+package t1;
 
 import java.util.*;
 

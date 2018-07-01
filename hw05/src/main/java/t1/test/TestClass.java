@@ -1,8 +1,8 @@
-package ru.otus.t1.test;
+package t1.test;
 
-import ru.otus.t1.annotation.After;
-import ru.otus.t1.annotation.Before;
-import ru.otus.t1.annotation.Test;
+import t1.annotation.After;
+import t1.annotation.Before;
+import t1.annotation.Test;
 
 public class TestClass {
 

@@ -1,4 +1,4 @@
-package ru.otus.t1;
+package t1;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -6,9 +6,9 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
-import ru.otus.t1.annotation.After;
-import ru.otus.t1.annotation.Before;
-import ru.otus.t1.annotation.Test;
+import t1.annotation.After;
+import t1.annotation.Before;
+import t1.annotation.Test;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TestFramework {
-    private static final String packageName = "ru.otus.t1.test";
+    private static final String packageName = "t1.test";
     private Method beforeMethod;
     private Method afterMethod;
     private Class<?> clazz;
