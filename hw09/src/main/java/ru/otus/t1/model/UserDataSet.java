@@ -1,15 +1,13 @@
-package main.java.ru.otus.t1;
+package ru.otus.t1.model;
 
 public class UserDataSet extends DataSet {
 
     private String name;
 
-    private int age;
+    private Integer age;
 
-    public UserDataSet(long id, String name, int age) {
-        super(id);
-        this.name = name;
-        this.age = age;
+    public UserDataSet() {
+        //empty
     }
 
     public String getName() {
@@ -20,11 +18,11 @@ public class UserDataSet extends DataSet {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 }
